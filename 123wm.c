@@ -182,7 +182,7 @@ is_a_viewable_window(Window w)
 Window
 find_window(Bool first)
 {
-   Window r_root, r_parent, *r_ch, ret;
+   Window r_root, r_parent, *r_ch, ret = None;
    unsigned int n_ch, i;
 
    if (!XQueryTree(dpy, root, &r_root, &r_parent, &r_ch, &n_ch))
