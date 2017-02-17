@@ -117,17 +117,20 @@ sub_place(Window w0, struct my_hint h, Bool left)
    sub_place_sub(w0, h, x, w);
 }
 
+void place_world_one(void);
+
 void
 place_world(void)
 {
    struct my_hint h;
 
    if (left_w  == None) return;
+   if (right_w == None) return place_world_one();
+
    h = get_size_hints(left_w);
    sub_place(left_w, h, True);
    XRaiseWindow(dpy, left_w);
 
-   if (right_w == None) return;
    h = get_size_hints(right_w);
    sub_place(right_w, h, False);
    XRaiseWindow(dpy, right_w);
@@ -145,7 +148,6 @@ place_world_one(void)
 {
    struct my_hint h;
 
-   if (!left_w) return;
    h = get_size_hints(left_w);
    sub_place_one(left_w, h);
 }
@@ -282,7 +284,9 @@ key_event_handler(KeySym k)
       break;
    case XK_u:
       main_normalize(main_w, main_h);
-      place_world_one();
+      right_w = None;
+      place_world();
+      set_focus(left_w);
    }
 }
 
