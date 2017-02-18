@@ -155,6 +155,7 @@ place_world_one(void)
 void
 set_focus(Window w)
 {
+   if (w == None) return;
    XSetInputFocus(dpy, w, RevertToPointerRoot, CurrentTime);
 }
 
@@ -322,6 +323,8 @@ mainloop_body(void)
    case DestroyNotify:
       destroy_event_handler(e.xdestroywindow.window);
    }
+   if (left_w == None)
+      swap_pane();
 }
 
 void
