@@ -95,15 +95,26 @@ main_maximize(Window w, struct my_hint h)
    XRaiseWindow(dpy, w);
 }
 
+int
+border_width(Window w)
+{
+   XWindowAttributes wa;
+
+   XGetWindowAttributes(dpy, w, &wa);
+   return wa.border_width;
+}
+
 void
 sub_place_sub(Window w0, struct my_hint h, int x, unsigned int w)
 {
    struct xywh a;
+   int         b;
 
+   b = border_width(w0);
    a.x = x;
-   a.w = h.w_base + (w - h.w_base) / h.w_inc * h.w_inc;
+   a.w = h.w_base + (w - 2 * b - h.w_base) / h.w_inc * h.w_inc;
    a.y = 0;
-   a.h = h.h_base + (screen_height - main_h.h_min - h.h_base) / h.h_inc
+   a.h = h.h_base + (screen_height - 2 * b - main_h.h_min - h.h_base) / h.h_inc
                                                               * h.h_inc;
    apply_geom(w0, a);
 }
