@@ -169,17 +169,18 @@ swap_pane(void)
    right_w = t;
 }
 
-int
+Bool
 is_a_viewable_window(Window w)
 {
    XWindowAttributes wa;
 
-   if (w == main_w)  return 0;
-   if (w == left_w)  return 0;
-   if (w == right_w) return 0;
+   if (w == main_w)  return False;
+   if (w == left_w)  return False;
+   if (w == right_w) return False;
    XGetWindowAttributes(dpy, w, &wa);
-   if (wa.override_redirect == True) return 0;
-   if (wa.map_state != IsViewable)   return 0;
+   if (wa.override_redirect == True) return False;
+   if (wa.map_state != IsViewable)   return False;
+   return True;
 }
 
 Window
